@@ -14,8 +14,8 @@ import {
   OPERATION_LABELS, DIGIT_LEVEL_LABELS,
 } from '@/lib/settings';
 
-const OPS:    OperationType[] = ['add', 'sub', 'both'];
-const LEVELS: DigitLevel[]    = ['1d1d', '2d1d', '2d2d'];
+const OPS: OperationType[] = ['add', 'sub', 'both'];
+const LEVELS: DigitLevel[] = ['1d1d', '2d1d', '2d2d'];
 
 export default function PracticePage() {
   const router = useRouter();
@@ -71,23 +71,23 @@ export default function PracticePage() {
     setSettings(next);
   }
 
-  const inStep   = phase === 'step';
+  const inStep = phase === 'step';
   const isJudged = phase === 'judged';
   const stepData = steps[currentStep];
 
   // キャラ表情の決定
   const emotion: CharEmotion =
-    phase === 'step'                         ? 'idea'  :
-    phase === 'judged' && lastCorrect        ? 'happy' :
-    phase === 'judged' && lastCorrect===false ? 'sad'   :
-    phase === 'answering'                    ? 'study' :
-    'happy';
+    phase === 'step' ? 'idea' :
+      phase === 'judged' && lastCorrect ? 'happy' :
+        phase === 'judged' && lastCorrect === false ? 'sad' :
+          phase === 'answering' ? 'study' :
+            'happy';
 
   return (
     <main className="flex h-screen max-w-5xl mx-auto overflow-hidden items-center justify-center bg-amber-50/10 gap-16">
 
       {/* ── 左カラム：キャラクター ── */}
-      <div className="w-[30%] max-w-[400px] h-full flex items-center justify-center border-r border-amber-100 bg-amber-50/60 relative">
+      <div className="w-[50%] max-w-[500px] h-full flex items-center justify-center border-r border-amber-100 bg-amber-50/60 relative">
         <div className="h-[600px] w-full relative">
           <CharacterCoach
             inline
@@ -218,11 +218,10 @@ export default function PracticePage() {
               {steps.map((_, i) => (
                 <div
                   key={i}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    i < currentStep   ? 'bg-step' :
-                    i === currentStep ? 'bg-step ring-2 ring-step/50' :
-                    'bg-gray-300'
-                  }`}
+                  className={`w-3 h-3 rounded-full transition-colors ${i < currentStep ? 'bg-step' :
+                      i === currentStep ? 'bg-step ring-2 ring-step/50' :
+                        'bg-gray-300'
+                    }`}
                 />
               ))}
             </div>
