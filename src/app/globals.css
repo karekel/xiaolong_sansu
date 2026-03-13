@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply font-rounded bg-amber-50 text-gray-800;
+    /* タブレット/スマホ縦画面最適化 */
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+  }
+
+  /* タップハイライト除去 */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ボタンのフォント継承 */
+  button {
+    @apply font-rounded;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-3xl shadow-md p-5;
+  }
+}

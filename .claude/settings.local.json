@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd /c/tashihikizan_webapp && npm install 2>&1)",
+      "Bash(cd /c/tashihikizan_webapp && npx tsc --noEmit 2>&1)",
+      "Bash(cd /c/tashihikizan_webapp && npm run build 2>&1)",
+      "Bash(cd:*)",
+      "Bash(cd /c/tashihikizan_webapp && npm run dev 2>&1)",
+      "Bash(npm run:*)",
+      "Bash(node -e \"\nconst fs = require\\('fs'\\);\nconst path = require\\('path'\\);\n// Check source image\nconst src = 'public/ChatGPT Image 2026年3月13日 18_34_26.png';\nconsole.log\\('exists:', fs.existsSync\\(src\\)\\);\n// Check if sharp is available\ntry { require\\('sharp'\\); console.log\\('sharp: ok'\\); } catch\\(e\\) { console.log\\('sharp: not found'\\); }\n// Check jimp\ntry { require\\('jimp'\\); console.log\\('jimp: ok'\\); } catch\\(e\\) { console.log\\('jimp: not found'\\); }\n\")",
+      "Bash(npm install:*)",
+      "Bash(netstat -ano | grep -E \":\\(300[0-9]|3010\\)\" | grep LISTEN | head -5)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3004/practice)"
+    ]
+  }
+}
