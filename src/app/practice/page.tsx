@@ -45,17 +45,25 @@ export default function PracticePage() {
 
   const [settings, setLocalSettings] = useState<PracticeSettings>(loadSettings);
 
-  // 初回マウント時に自動スタート
+  // マウント時に常にセッション開始（result画面から戻ってきた場合も含む）
   useEffect(() => {
-    if (phase === 'idle') {
-      setSettings(settings);
-      startSession();
-    }
+    setSettings(settings);
+    startSession();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // finished → 結果画面
+  // finished → 結果画面（マウント直後の startSession 前には発火しないよう started フラグで管理）
+  const [started, setStarted] = useState(false);
   useEffect(() => {
+    if (!started) { setStarted(true); return; }
     if (phase === 'finished') router.replace('/result');
+  }, [phase]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // judged → 自動で次の問題へ（正解:1.2秒、不正解:2.5秒）
+  useEffect(() => {
+    if (phase !== 'judged') return;
+    const delay = lastCorrect ? 1200 : 2500;
+    const timer = setTimeout(() => nextProblem(), delay);
+    return () => clearTimeout(timer);
   }, [phase]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // 設定変更（次の問題から反映）
@@ -187,27 +195,15 @@ export default function PracticePage() {
               </button>
             )}
 
-            {isJudged && (
-              <div className="flex flex-col gap-2 w-full">
-                <button
-                  onClick={nextProblem}
-                  className="w-full h-14 rounded-2xl bg-brand-400 hover:bg-brand-500
-                             text-white font-bold text-xl shadow-md
-                             active:scale-95 transition-transform"
-                >
-                  つぎのもんだい →
-                </button>
-                {lastCorrect === false && (
-                  <button
-                    onClick={enterStepMode}
-                    className="w-full h-11 rounded-2xl bg-step/10 hover:bg-step/20
-                               border-2 border-step text-step font-bold text-sm
-                               active:scale-95 transition-transform"
-                  >
-                    てじゅんを みる
-                  </button>
-                )}
-              </div>
+            {isJudged && lastCorrect === false && (
+              <button
+                onClick={enterStepMode}
+                className="w-full h-11 rounded-2xl bg-step/10 hover:bg-step/20
+                           border-2 border-step text-step font-bold text-sm
+                           active:scale-95 transition-transform"
+              >
+                てじゅんを みる
+              </button>
             )}
           </div>
         )}

@@ -37,7 +37,7 @@ function AppleGroup({
   );
 }
 
-// ─── 10のまとまりBox ──────────────────────────────────────────────────────────
+// ─── 10のまとまりBox（単体・borrow等で使用）─────────────────────────────────
 
 function TenBox({ count = 1 }: { count?: number }) {
   return (
@@ -51,6 +51,34 @@ function TenBox({ count = 1 }: { count?: number }) {
           ))}
         </div>
       ))}
+    </div>
+  );
+}
+
+// ─── たばグリッド（tens/combineで使用・何たばでも崩れない）──────────────────
+
+function BundleGrid({
+  count, borderCls, bgCls, labelCls, label, dim = false,
+}: {
+  count: number; borderCls: string; bgCls: string; labelCls: string;
+  label: string; dim?: boolean;
+}) {
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <div className="flex flex-wrap gap-1 justify-center" style={{ maxWidth: '92px' }}>
+        {Array.from({ length: count }).map((_, i) => (
+          <div key={i}
+               className={`border-2 border-dashed ${borderCls} rounded-lg ${bgCls} ${dim ? 'opacity-40' : ''}`}
+               style={{ width: '42px', padding: '2px' }}>
+            <div className="flex flex-wrap justify-center gap-0">
+              {Array.from({ length: 10 }).map((_, j) => (
+                <span key={j} className="leading-none" style={{ fontSize: '9px' }}>🍎</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <span className={`text-[11px] font-bold ${labelCls}`}>{label}</span>
     </div>
   );
 }
@@ -301,116 +329,49 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
 
   if (visual === 'tens') {
     const tensA = op === '-' && data.borrowed ? data.aTens - 1 : data.aTens;
-    if (op === '+') {
-      return (
-        <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center gap-2 flex-wrap justify-center">
-            {tensA > 0 && (
-              <>
-                <div className="flex flex-col items-center gap-1">
-                  {Array.from({ length: tensA }).map((_, i) => (
-                    <div key={i} className="border-2 border-dashed border-orange-400 rounded-xl
-                                            bg-orange-50 px-1 py-0.5 flex gap-0.5 w-[58px] justify-center">
-                      {Array.from({ length: 10 }).map((_, j) => (
-                        <span key={j} className="text-xs">🍎</span>
-                      ))}
-                    </div>
-                  ))}
-                  <span className="text-[11px] text-orange-500 font-bold">{tensA}たば</span>
-                </div>
-                <span className="text-xl font-bold text-gray-400">＋</span>
-              </>
-            )}
-            {data.bTens > 0 && (
-              <>
-                <div className="flex flex-col items-center gap-1">
-                  {Array.from({ length: data.bTens }).map((_, i) => (
-                    <div key={i} className="border-2 border-dashed border-blue-400 rounded-xl
-                                            bg-blue-50 px-1 py-0.5 flex gap-0.5 w-[58px] justify-center">
-                      {Array.from({ length: 10 }).map((_, j) => (
-                        <span key={j} className="text-xs">🍎</span>
-                      ))}
-                    </div>
-                  ))}
-                  <span className="text-[11px] text-blue-500 font-bold">{data.bTens}たば</span>
-                </div>
-              </>
-            )}
-            {data.carry > 0 && (
-              <>
-                <span className="text-xl font-bold text-gray-400">＋</span>
-                <div className="bg-amber-100 border border-amber-300 rounded-xl px-2 py-1
-                                text-xs font-bold text-amber-700 text-center">
-                  くりあげ<br />1たば
-                </div>
-              </>
-            )}
-            <span className="text-xl font-bold text-gray-400">＝</span>
-            <div className="flex flex-col items-center gap-1">
-              {Array.from({ length: data.tensResult }).map((_, i) => (
-                <div key={i} className="border-2 border-dashed border-green-500 rounded-xl
-                                        bg-green-50 px-1 py-0.5 flex gap-0.5 w-[58px] justify-center">
-                  {Array.from({ length: 10 }).map((_, j) => (
-                    <span key={j} className="text-xs">🍎</span>
-                  ))}
-                </div>
-              ))}
-              <span className="text-[11px] text-green-600 font-bold">{data.tensResult}たば</span>
-            </div>
-          </div>
-        </div>
-      );
-    }
-    // sub tens
+    const opSym = op === '+' ? '＋' : '－';
+
     return (
-      <div className="flex flex-col items-center gap-2">
-        <div className="flex items-center gap-2 flex-wrap justify-center">
+      <div className="flex flex-col items-center gap-3">
+        {/* 上段：足す/引く素材 */}
+        <div className="flex items-center gap-3 flex-wrap justify-center">
           {tensA > 0 && (
-            <>
-              <div className="flex flex-col items-center gap-1">
-                {Array.from({ length: tensA }).map((_, i) => (
-                  <div key={i} className="border-2 border-dashed border-orange-400 rounded-xl
-                                          bg-orange-50 px-1 py-0.5 flex gap-0.5 w-[58px] justify-center">
-                    {Array.from({ length: 10 }).map((_, j) => (
-                      <span key={j} className="text-xs">🍎</span>
-                    ))}
-                  </div>
-                ))}
-                <span className="text-[11px] text-orange-500 font-bold">
-                  {data.borrowed ? `${data.aTens}たば(かりた後${tensA}たば)` : `${tensA}たば`}
-                </span>
-              </div>
-            </>
+            <BundleGrid
+              count={tensA}
+              borderCls="border-orange-400" bgCls="bg-orange-50" labelCls="text-orange-500"
+              label={data.borrowed ? `${data.aTens}→${tensA}たば` : `${tensA}たば`}
+            />
+          )}
+          {(data.bTens > 0 || data.carry > 0) && (
+            <span className="text-2xl font-bold text-gray-400">{opSym}</span>
           )}
           {data.bTens > 0 && (
+            <BundleGrid
+              count={data.bTens}
+              borderCls="border-blue-400" bgCls="bg-blue-50" labelCls="text-blue-500"
+              label={`${data.bTens}たば`}
+              dim={op === '-'}
+            />
+          )}
+          {data.carry > 0 && (
             <>
-              <span className="text-xl font-bold text-gray-400">－</span>
-              <div className="flex flex-col items-center gap-1">
-                {Array.from({ length: data.bTens }).map((_, i) => (
-                  <div key={i} className="border-2 border-dashed border-blue-400 rounded-xl
-                                          bg-blue-50 px-1 py-0.5 flex gap-0.5 w-[58px] justify-center opacity-40">
-                    {Array.from({ length: 10 }).map((_, j) => (
-                      <span key={j} className="text-xs">🍎</span>
-                    ))}
-                  </div>
-                ))}
-                <span className="text-[11px] text-blue-500 font-bold">{data.bTens}たば</span>
+              <span className="text-xl font-bold text-gray-400">＋</span>
+              <div className="bg-amber-100 border border-amber-300 rounded-xl px-2 py-1
+                              text-xs font-bold text-amber-700 text-center">
+                くりあげ<br />1たば
               </div>
             </>
           )}
-          <span className="text-xl font-bold text-gray-400">＝</span>
+        </div>
+        {/* 下段：= 結果 */}
+        <div className="flex items-center gap-2">
+          <span className="text-2xl font-bold text-gray-400">＝</span>
           {data.tensResult > 0 ? (
-            <div className="flex flex-col items-center gap-1">
-              {Array.from({ length: data.tensResult }).map((_, i) => (
-                <div key={i} className="border-2 border-dashed border-green-500 rounded-xl
-                                        bg-green-50 px-1 py-0.5 flex gap-0.5 w-[58px] justify-center">
-                  {Array.from({ length: 10 }).map((_, j) => (
-                    <span key={j} className="text-xs">🍎</span>
-                  ))}
-                </div>
-              ))}
-              <span className="text-[11px] text-green-600 font-bold">{data.tensResult}たば</span>
-            </div>
+            <BundleGrid
+              count={data.tensResult}
+              borderCls="border-green-500" bgCls="bg-green-50" labelCls="text-green-600"
+              label={`${data.tensResult}たば`}
+            />
           ) : (
             <span className="text-xl font-bold text-gray-500">0たば</span>
           )}
@@ -424,23 +385,17 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
   if (visual === 'combine') {
     return (
       <div className="flex flex-col items-center gap-3">
-        {/* 合わせる素材を横並び（折り返しても重ならないよう gap 確保） */}
-        <div className="flex gap-4 justify-center items-end">
+        {/* 合わせる素材を横並び */}
+        <div className="flex gap-4 justify-center items-center">
           {data.tensResult > 0 && (
-            <div className="flex flex-col items-center gap-1">
-              {Array.from({ length: data.tensResult }).map((_, i) => (
-                <div key={i} className="border-2 border-dashed border-orange-400 rounded-xl
-                                        bg-orange-50 px-1 py-0.5 flex gap-0.5 w-[62px] justify-center">
-                  {Array.from({ length: 10 }).map((_, j) => (
-                    <span key={j} className="text-xs">🍎</span>
-                  ))}
-                </div>
-              ))}
-              <span className="text-[11px] text-orange-500 font-bold">{data.tensResult}たば</span>
-            </div>
+            <BundleGrid
+              count={data.tensResult}
+              borderCls="border-orange-400" bgCls="bg-orange-50" labelCls="text-orange-500"
+              label={`${data.tensResult}たば`}
+            />
           )}
           {data.tensResult > 0 && data.onesWritten > 0 && (
-            <span className="text-2xl font-bold text-gray-400 pb-4">＋</span>
+            <span className="text-2xl font-bold text-gray-400">＋</span>
           )}
           {data.onesWritten > 0 && (
             <AppleGroup count={data.onesWritten} emoji="🍎"
