@@ -110,7 +110,7 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
             <AppleGroup count={data.aOnes} emoji="🍎" label={`${data.aOnes}こ`}
               bg="bg-red-50" border="border-red-100" labelColor="text-red-400" />
             <span className="text-2xl font-bold text-gray-400">＋</span>
-            <AppleGroup count={data.bOnes} emoji="🍋" label={`${data.bOnes}こ`}
+            <AppleGroup count={data.bOnes} emoji="🍎" label={`${data.bOnes}こ`}
               bg="bg-yellow-50" border="border-yellow-100" labelColor="text-yellow-500" />
             <span className="text-2xl font-bold text-gray-400">＝</span>
             <AppleGroup count={data.onesResult}
@@ -153,10 +153,10 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
         />
         {/* りんご視覚 */}
         <div className="flex gap-2 flex-wrap justify-center">
-          <AppleGroup count={data.splitFirst} emoji="🍊"
+          <AppleGroup count={data.splitFirst} emoji="🍎"
             label={`${data.splitFirst}こ`}
             bg="bg-orange-50" border="border-orange-100" labelColor="text-orange-500" />
-          <AppleGroup count={data.splitSecond} emoji="🍋"
+          <AppleGroup count={data.splitSecond} emoji="🍎"
             label={`${data.splitSecond}こ`}
             bg="bg-yellow-50" border="border-yellow-100" labelColor="text-yellow-500" />
         </div>
@@ -174,7 +174,7 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
           <AppleGroup count={data.aOnes} emoji="🍎" label={`${data.aOnes}こ`}
             bg="bg-red-50" border="border-red-100" labelColor="text-red-400" />
           <span className="text-2xl font-bold text-gray-400">＋</span>
-          <AppleGroup count={data.splitFirst} emoji="🍊" label={`${data.splitFirst}こ`}
+          <AppleGroup count={data.splitFirst} emoji="🍎" label={`${data.splitFirst}こ`}
             bg="bg-orange-50" border="border-orange-100" labelColor="text-orange-500" />
           <span className="text-2xl font-bold text-gray-400">＝</span>
           <div className="flex flex-col items-center">
@@ -190,7 +190,7 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
               <span className="text-[11px] font-bold text-orange-600 mt-1">10</span>
             </div>
             <span className="text-2xl font-bold text-gray-400">＋</span>
-            <AppleGroup count={data.splitSecond} emoji="🍋" label={`${data.splitSecond}こ`}
+            <AppleGroup count={data.splitSecond} emoji="🍎" label={`${data.splitSecond}こ`}
               bg="bg-yellow-50" border="border-yellow-100" labelColor="text-yellow-500" />
             <span className="text-2xl font-bold text-gray-400">＝</span>
             <span className="text-3xl font-extrabold text-white bg-brand-400 rounded-2xl px-3 py-1.5 shadow">
@@ -249,10 +249,10 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
           rightLabel="のこり"
         />
         <div className="flex gap-2 flex-wrap justify-center">
-          <AppleGroup count={data.splitFirst} emoji="🍊"
+          <AppleGroup count={data.splitFirst} emoji="🍎"
             label={`${data.splitFirst}こ ひく`}
             bg="bg-orange-50" border="border-orange-100" labelColor="text-orange-500" />
-          <AppleGroup count={data.splitSecond} emoji="🍊"
+          <AppleGroup count={data.splitSecond} emoji="🍎"
             label={`さらに${data.splitSecond}こ ひく`}
             bg="bg-amber-50" border="border-amber-100" labelColor="text-amber-500" />
         </div>
@@ -272,7 +272,7 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
             <span className="text-xl font-extrabold text-green-700">{borrowed10}こ</span>
           </div>
           <span className="text-xl font-bold text-gray-400">－</span>
-          <AppleGroup count={data.splitFirst} emoji="🍊" label={`${data.splitFirst}こ`}
+          <AppleGroup count={data.splitFirst} emoji="🍎" label={`${data.splitFirst}こ`}
             bg="bg-orange-50" border="border-orange-100" labelColor="text-orange-500" />
           <span className="text-xl font-bold text-gray-400">＝</span>
           <div className="flex flex-col items-center">
@@ -287,7 +287,7 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
             <span className="text-[11px] font-bold text-orange-600 mt-1">10こ</span>
           </div>
           <span className="text-xl font-bold text-gray-400">－</span>
-          <AppleGroup count={data.splitSecond} emoji="🍊" label={`${data.splitSecond}こ`}
+          <AppleGroup count={data.splitSecond} emoji="🍎" label={`${data.splitSecond}こ`}
             bg="bg-orange-50" border="border-orange-100" labelColor="text-orange-500" />
           <span className="text-xl font-bold text-gray-400">＝</span>
           <AppleGroup count={data.onesWritten} emoji="🍎" label={`こたえ${data.onesWritten}こ`}
@@ -328,7 +328,7 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
                     <div key={i} className="border-2 border-dashed border-blue-400 rounded-xl
                                             bg-blue-50 px-1 py-0.5 flex gap-0.5 w-[58px] justify-center">
                       {Array.from({ length: 10 }).map((_, j) => (
-                        <span key={j} className="text-xs">🍋</span>
+                        <span key={j} className="text-xs">🍎</span>
                       ))}
                     </div>
                   ))}
@@ -390,7 +390,7 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
                   <div key={i} className="border-2 border-dashed border-blue-400 rounded-xl
                                           bg-blue-50 px-1 py-0.5 flex gap-0.5 w-[58px] justify-center opacity-40">
                     {Array.from({ length: 10 }).map((_, j) => (
-                      <span key={j} className="text-xs">🍋</span>
+                      <span key={j} className="text-xs">🍎</span>
                     ))}
                   </div>
                 ))}
@@ -423,13 +423,14 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
 
   if (visual === 'combine') {
     return (
-      <div className="flex flex-col items-center gap-2">
-        {data.tensResult > 0 && (
-          <div className="flex items-center gap-2 flex-wrap justify-center">
+      <div className="flex flex-col items-center gap-3">
+        {/* 合わせる素材を横並び（折り返しても重ならないよう gap 確保） */}
+        <div className="flex gap-4 justify-center items-end">
+          {data.tensResult > 0 && (
             <div className="flex flex-col items-center gap-1">
               {Array.from({ length: data.tensResult }).map((_, i) => (
                 <div key={i} className="border-2 border-dashed border-orange-400 rounded-xl
-                                        bg-orange-50 px-1 py-0.5 flex gap-0.5 w-[58px] justify-center">
+                                        bg-orange-50 px-1 py-0.5 flex gap-0.5 w-[62px] justify-center">
                   {Array.from({ length: 10 }).map((_, j) => (
                     <span key={j} className="text-xs">🍎</span>
                   ))}
@@ -437,18 +438,19 @@ function StepIllustration({ visual, data, op }: { visual: StepVisual; data: Step
               ))}
               <span className="text-[11px] text-orange-500 font-bold">{data.tensResult}たば</span>
             </div>
-            {data.onesWritten > 0 && (
-              <>
-                <span className="text-xl font-bold text-gray-400">＋</span>
-                <AppleGroup count={data.onesWritten} emoji="🍎"
-                  label={`${data.onesWritten}こ`}
-                  bg="bg-green-50" border="border-green-100" labelColor="text-green-600" />
-              </>
-            )}
-            <span className="text-xl font-bold text-gray-400">＝</span>
-          </div>
-        )}
-        <span className="text-5xl font-extrabold text-white bg-brand-400 rounded-3xl px-5 py-2 shadow-lg">
+          )}
+          {data.tensResult > 0 && data.onesWritten > 0 && (
+            <span className="text-2xl font-bold text-gray-400 pb-4">＋</span>
+          )}
+          {data.onesWritten > 0 && (
+            <AppleGroup count={data.onesWritten} emoji="🍎"
+              label={`${data.onesWritten}こ`}
+              bg="bg-green-50" border="border-green-100" labelColor="text-green-600" />
+          )}
+        </div>
+        {/* 矢印＋答え */}
+        <span className="text-2xl text-gray-400">↓</span>
+        <span className="text-5xl font-extrabold text-white bg-brand-400 rounded-3xl px-6 py-2 shadow-lg">
           {data.finalAnswer}
         </span>
       </div>

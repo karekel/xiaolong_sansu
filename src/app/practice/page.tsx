@@ -37,6 +37,7 @@ export default function PracticePage() {
     nextProblem,
     enterStepMode,
     nextStep,
+    prevStep,
     endSession,
     startSession,
     setSettings,
@@ -211,7 +212,7 @@ export default function PracticePage() {
           </div>
         )}
 
-        {/* 手順モード：進捗ドット＋次へ */}
+        {/* 手順モード：進捗ドット＋ボタン */}
         {inStep && (
           <div className="flex flex-col gap-2 w-full">
             <div className="flex justify-center gap-2">
@@ -225,14 +226,24 @@ export default function PracticePage() {
                 />
               ))}
             </div>
-            <button
-              onClick={nextStep}
-              className="w-full h-14 rounded-2xl bg-step hover:bg-indigo-700
-                         text-white font-bold text-xl shadow-md
-                         active:scale-95 transition-transform"
-            >
-              {currentStep < steps.length - 1 ? 'つぎへ →' : 'といてみよう！'}
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={prevStep}
+                className="h-14 px-5 rounded-2xl bg-gray-100 hover:bg-gray-200
+                           text-gray-600 font-bold text-xl shadow-sm
+                           active:scale-95 transition-transform"
+              >
+                ← もどる
+              </button>
+              <button
+                onClick={nextStep}
+                className="flex-1 h-14 rounded-2xl bg-step hover:bg-indigo-700
+                           text-white font-bold text-xl shadow-md
+                           active:scale-95 transition-transform"
+              >
+                {currentStep < steps.length - 1 ? 'つぎへ →' : 'つぎのもんだいへ →'}
+              </button>
+            </div>
           </div>
         )}
 

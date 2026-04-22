@@ -98,6 +98,7 @@ interface SessionState {
   nextProblem: () => void;
   enterStepMode: () => void;
   nextStep: () => void;
+  prevStep: () => void;
   endSession: () => void;
   setDialog: (text: string) => void;
   setVoiceEnabled: (v: boolean) => void;
@@ -271,6 +272,23 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     });
   },
 
+  // ─── prevStep ─────────────────────────────────────────────────────────────
+
+  prevStep() {
+    const { steps, currentStep, currentProblem } = get();
+    if (!currentProblem) return;
+    if (currentStep > 0) {
+      const prev   = currentStep - 1;
+      const dialog = stepLine(steps[prev].visual, currentProblem.op);
+      speak(dialog, get().voiceEnabled, { rate: 0.9 });
+      set({ currentStep: prev, currentDialog: dialog });
+    } else {
+      const dialog = pick(lines.onProblem);
+      speak(dialog, get().voiceEnabled, { rate: 0.95 });
+      set({ phase: 'answering', userInput: '', lastCorrect: null, currentDialog: dialog });
+    }
+  },
+
   // ─── nextStep ─────────────────────────────────────────────────────────────
 
   nextStep() {
@@ -283,10 +301,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       speak(dialog, get().voiceEnabled, { rate: 0.9 });
       set({ currentStep: next, currentDialog: dialog });
     } else {
-      // 手順終了 → 回答モードへ
-      const dialog = 'では、じぶんでこたえてみよう！';
-      speak(dialog, get().voiceEnabled);
-      set({ phase: 'answering', userInput: '', lastCorrect: null, currentDialog: dialog });
+      // 手順終了 → 次の問題へ
+      get().nextProblem();
     }
   },
 
