@@ -13,10 +13,10 @@ function makeId(): string { return Math.random().toString(36).slice(2, 10); }
 interface Range { min: number; max: number }
 
 function aRange(lvl: DigitLevel): Range {
-  return lvl === '1d1d' ? { min: 1, max: 9 } : { min: 10, max: 99 };
+  return lvl === '1d1d' ? { min: 1, max: 9 } : { min: 10, max: 20 };
 }
 function bRange(lvl: DigitLevel): Range {
-  return lvl === '2d2d' ? { min: 10, max: 99 } : { min: 1, max: 9 };
+  return lvl === '2d2d' ? { min: 10, max: 20 } : { min: 1, max: 9 };
 }
 function rand(r: Range): number {
   return Math.floor(Math.random() * (r.max - r.min + 1)) + r.min;
@@ -32,13 +32,11 @@ function tryGenerate(typeTag: TypeTag, digitLevel: DigitLevel = '2d2d'): Problem
     case 'add_no_carry': {
       const a = rand(ar), b = rand(br);
       if (getOnes(a) + getOnes(b) >= 10) return null;
-      if (a + b > 99) return null;
       return { id: makeId(), a, b, op: '+', answer: a + b, typeTag };
     }
     case 'add_carry': {
       const a = rand(ar), b = rand(br);
       if (getOnes(a) + getOnes(b) < 10) return null;
-      if (a + b > 99) return null;
       return { id: makeId(), a, b, op: '+', answer: a + b, typeTag };
     }
     case 'sub_no_borrow': {
@@ -72,10 +70,12 @@ export function generateProblem(typeTag: TypeTag, digitLevel: DigitLevel = '2d2d
 
 export function allowedTypeTags(settings: PracticeSettings): TypeTag[] {
   const { operation, digitLevel } = settings;
+
   const addTags: TypeTag[] = ['add_no_carry', 'add_carry'];
   const subTags: TypeTag[] = digitLevel === '1d1d'
     ? ['sub_no_borrow']
     : ['sub_no_borrow', 'sub_borrow'];
+
   if (operation === 'add') return addTags;
   if (operation === 'sub') return subTags;
   return [...addTags, ...subTags];

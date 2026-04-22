@@ -45,6 +45,6 @@ export const OPERATION_LABELS: Record<OperationType, string> = {
 
 export const DIGIT_LEVEL_LABELS: Record<DigitLevel, string> = {
   '1d1d': '1けた',
-  '2d1d': '2＋1けた',
-  '2d2d': '2けた',
+  '2d1d': '2＋1けた(〜20)',
+  '2d2d': '2けた(〜20)',
 };
